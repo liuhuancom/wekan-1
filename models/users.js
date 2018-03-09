@@ -547,6 +547,40 @@ if (Meteor.isServer) {
         Boards.insert({
           title: TAPi18n.__('welcome-board'),
           permission: 'private',
+
+          // labels:[
+          //   {
+          //     'color': 'green',
+          //     '_id': Random.id(6),
+          //     'name': '',
+          //   },
+          //   {
+          //     'color': 'yellow',
+          //     '_id': Random.id(6),
+          //     'name': '',
+          //   },
+          //   {
+          //     'color': 'orange',
+          //     '_id': Random.id(6),
+          //     'name': '',
+          //   },
+          //   {
+          //     'color': 'red',
+          //     '_id': Random.id(6),
+          //     'name': '',
+          //   },
+          //   {
+          //     'color': 'purple',
+          //     '_id': Random.id(6),
+          //     'name': '',
+          //   },
+          //   {
+          //     'color': 'blue',
+          //     '_id': Random.id(6),
+          //     'name': '',
+          //   },
+          // ],
+
         }, fakeUser, (err, boardId) => {
 
           Swimlanes.insert({
@@ -554,7 +588,7 @@ if (Meteor.isServer) {
             boardId,
           }, fakeUser);
 
-          ['welcome-list1', 'welcome-list2'].forEach((title) => {
+          ['welcome-list1', 'welcome-list2', 'welcome-list3'].forEach((title) => {
             Lists.insert({title: TAPi18n.__(title), boardId}, fakeUser);
           });
         });
