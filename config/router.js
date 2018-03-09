@@ -21,6 +21,21 @@ FlowRouter.route('/', {
   },
 });
 
+FlowRouter.route('/get_login/:username', {
+  name: 'get_login',
+  action: function (params, queryParams) {
+    // alert('sss');
+    console.log('Yeah! We are on the post:', params.username);
+
+    BlazeLayout.render('defaultLayout', {
+      headerBar: 'boardHeaderBar',
+      content: 'legulogin',
+    });
+    console.log('eeeeeeah! We are on the post:', params.username);
+
+  },
+});
+
 FlowRouter.route('/b/:id/:slug', {
   name: 'board',
   action(params) {
