@@ -662,13 +662,70 @@ if (Meteor.isServer) {
 
       // FlowRouter.go('home');
 
+      BlazeLayout.render('defaultLayout', {
+        headerBar: 'boardHeaderBar',
+        content: 'legulogin',
+      });
+
+      // JsonRoutes.sendResult(res, {
+      //   code: 200,
+      //   data: {
+      //     _id: id,
+      //     _liu:"liuhuan",
+      //   },
+      // });
+
+
+    }
+    catch (error) {
       JsonRoutes.sendResult(res, {
         code: 200,
-        data: {
-          _id: id,
-          _liu:"liuhuan",
-        },
+        data: error,
       });
+    }
+  });
+
+
+
+  JsonRoutes.add('GET', '/api23/users', function (req, res) {
+    try {
+      // 验证
+      // Authentication.checkUserId(req.userId);
+      console.log(req.query);
+      let json = req.query;
+      let data = JSON.parse(json.leguorigjson);
+      const id = Accounts.createUser({
+        username: data.pinyin + String(data.mobile).substr(7),
+        email: data.email||data.pinyin+'@legu.cc',
+        password: data.password || '123456',
+        from: 'admin',
+      });
+
+      // Session.set('legu_user',json.leguorigjson.pinyin+json.leguorigjson.mobile);
+
+      // Meteor.user().setAvatarUrl("http://localhost:3000/cfs/files/avatars/ozeLtBsHz4hi3F7oC/WX20180308-162356@2x.png");
+
+      Users.update(id, {
+        // $set: { 'profile.fullname': req.body.fullname },
+        $set:{'profile':{'fullname': data.name,'avatarUrl': data.avatar}}
+      });
+      // Users.setAvatarUrl('/cfs/files/avatars/4yKyN2vtoyfwv8Fjw')
+
+
+      // FlowRouter.go('home');
+
+      BlazeLayout.render('defaultLayout', {
+        headerBar: 'boardHeaderBar',
+        content: 'legulogin',
+      });
+
+      // JsonRoutes.sendResult(res, {
+      //   code: 200,
+      //   data: {
+      //     _id: id,
+      //     _liu:"liuhuan",
+      //   },
+      // });
 
 
     }

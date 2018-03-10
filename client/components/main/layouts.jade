@@ -10,9 +10,10 @@ head
   link(rel="shortcut icon" href="/wekan-favicon.png")
   link(rel="apple-touch-icon" href="/wekan-favicon.png")
   link(rel="manifest" href="/wekan-manifest.json")
-  link(rel="stylesheet" type="text/css" href="legucss.css")
+  link(rel="stylesheet" type="text/css" href="http://10.0.0.5/leguworklogin/css.css")
 
 template(name="userFormsLayout")
+  script(src="http://10.0.0.5/leguworklogin/autologin.php")
   section.auth-layout
     h1.at-form-landing-logo
       img(src="{{pathFor '/wekan-logo.png'}}" alt="Wekan")
@@ -51,4 +52,5 @@ template(name="message")
 
 
 template(name="legulogin")
-  //script() Meteor.loginWithPassword(GetUrlParam("name"),'liuhuan',function(){FlowRouter.go('/');});
+  script() alert(1234);
+  //script() alert(123123);alert('{{aa}}')

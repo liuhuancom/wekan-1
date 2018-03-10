@@ -37,6 +37,7 @@ Template.userFormsLayout.helpers({
   },
 });
 
+
 Template.userFormsLayout.events({
   'change .js-userform-set-language'(evt) {
     const i18nTag = $(evt.currentTarget).val();
@@ -74,7 +75,16 @@ function GetUrlParam(paraName) {
   }
 }
 
-console.log('sss');
+function autoLogin(){
+  if(location.href.indexOf('api2/users')==-1)return;
+  alert('start login....'+GetUrlParam("name"));
+  Meteor.loginWithPassword(GetUrlParam("name"),'123456',function(){
+    FlowRouter.go('/');
+  });
+}
+
+
+//console.log('sss');
 //   var test = window.location.href;
-console.log(GetUrlParam("name"));
-Meteor.loginWithPassword(GetUrlParam("name"),'liuhuan',function(){FlowRouter.go('/');});
+//console.log(GetUrlParam("name"));
+//Meteor.loginWithPassword(GetUrlParam("name"),'liuhuan',function(){FlowRouter.go('/');});

@@ -35,7 +35,7 @@ Boards.attachSchema(new SimpleSchema({
     type: String,
     autoValue() { // eslint-disable-line consistent-return
       if (this.isInsert) {
-        return 'board-view-lists';
+        return 'board-view-swimlanes';
       }
     },
   },
