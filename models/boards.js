@@ -75,13 +75,24 @@ Boards.attachSchema(new SimpleSchema({
     type: [Object],
     autoValue() { // eslint-disable-line consistent-return
       if (this.isInsert && !this.isSet) {
-        const colors = Boards.simpleSchema()._schema['labels.$.color'].allowedValues;
-        const defaultLabelsColors = _.clone(colors).splice(0, 6);
-        return defaultLabelsColors.map((color) => ({
-          color,
-          _id: Random.id(6),
-          name: '',
-        }));
+
+        // const colors = Boards.simpleSchema()._schema['labels.$.color'].allowedValues;
+        // const defaultLabelsColors = _.clone(colors).splice(0, 6);
+        // return defaultLabelsColors.map((color) => ({
+        //   color,
+        //   _id: Random.id(6),
+        //   name: '',
+        // }));
+
+        return [
+          {'color': 'legugreen', _id: Random.id(6), 'name': 'QA'},
+          {'color': 'legupurple', _id: Random.id(6), 'name': 'UI'},
+          {'color': 'legublue', _id: Random.id(6), 'name': '策'},
+          {'color': 'leguyellow', _id: Random.id(6), 'name': '美'},
+          {'color': 'legured', _id: Random.id(6), 'name': '程'},
+          {'color': 'legupink', _id: Random.id(6), 'name': '待重现'},
+          {'color': 'legugray', _id: Random.id(6), 'name': '延后'},
+        ];
       }
     },
   },
@@ -102,6 +113,7 @@ Boards.attachSchema(new SimpleSchema({
     allowedValues: [
       'green', 'yellow', 'orange', 'red', 'purple',
       'blue', 'sky', 'lime', 'pink', 'black',
+      'legugreen', 'legupurple', 'legublue', 'leguyellow', 'legured', 'legupink', 'legugray',
     ],
   },
   // XXX We might want to maintain more informations under the member sub-

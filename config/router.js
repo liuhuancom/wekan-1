@@ -21,6 +21,53 @@ FlowRouter.route('/', {
   },
 });
 
+
+FlowRouter.route('/get_login/:username', {
+  name: 'get_login',
+  action: function (params, queryParams) {
+    // alert('sss');
+    //const aaaaa = "111111";
+    //console.log('Yeah! We are on the post:', params.username);
+
+    BlazeLayout.render('defaultLayout', {
+      headerBar: 'boardHeaderBar',
+      content: 'legulogin',
+    });
+    console.log('eeeeeeah! We are on the post:', params.username);
+
+  },
+});
+
+FlowRouter.route('/api2/users', {
+  name: 'get_login2',
+  action: function (params, queryParams) {
+    // alert('sss');
+    console.log('aaaaaaaaaaaaaa:', params);
+
+    let json = queryParams;
+    let data = JSON.parse(json.leguorigjson);
+    const id = Accounts.createUser({
+      username: data.pinyin + String(data.mobile).substr(7),
+      email: data.email||data.pinyin+'@legu.cc',
+      password: data.password || '123456',
+      from: 'admin',
+    });
+    console.log('xxxxxx',data,id);
+    // Session.set('legu_user',json.leguorigjson.pinyin+json.leguorigjson.mobile);
+
+    // Meteor.user().setAvatarUrl("http://localhost:3000/cfs/files/avatars/ozeLtBsHz4hi3F7oC/WX20180308-162356@2x.png");
+
+    Users.update(id, {
+      // $set: { 'profile.fullname': req.body.fullname },
+      $set:{'profile':{'fullname': data.name,'avatarUrl': data.avatar}}
+    });
+
+    BlazeLayout.render('legulogin');
+    console.log('bbbbbbbbbbb', queryParams);
+
+  },
+});
+
 FlowRouter.route('/b/:id/:slug', {
   name: 'board',
   action(params) {
