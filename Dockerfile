@@ -131,5 +131,6 @@ RUN \
 ENV PORT=80
 EXPOSE $PORT
 EXPOSE 8080
+VOLUME ["/home/wekan/app","/build"]
 
 CMD ["node", "/build/main.js"]
