@@ -130,5 +130,6 @@ RUN \
 
 ENV PORT=80
 EXPOSE $PORT
+EXPOSE 8080
 
 CMD ["node", "/build/main.js"]
