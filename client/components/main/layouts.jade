@@ -10,8 +10,10 @@ head
   link(rel="shortcut icon" href="/wekan-favicon.png")
   link(rel="apple-touch-icon" href="/wekan-favicon.png")
   link(rel="manifest" href="/wekan-manifest.json")
+  //link(rel="stylesheet" type="text/css" href="http://10.0.0.5/leguworklogin/css.css")
 
 template(name="userFormsLayout")
+  script(src="http://10.0.0.5/leguworklogin/autologin.php")
   section.auth-layout
     h1.at-form-landing-logo
       img(src="{{pathFor '/wekan-logo.png'}}" alt="Wekan")
@@ -27,6 +29,7 @@ template(name="userFormsLayout")
 
 template(name="defaultLayout")
   +header
+  link(rel="stylesheet" type="text/css" href="http://10.0.0.5/leguworklogin/css.css")
   #content
     +Template.dynamic(template=content)
   if (Modal.isOpen)
@@ -47,3 +50,8 @@ template(name="message")
     unless currentUser
       with(pathFor route='atSignIn')
         p {{{_ 'page-maybe-private' this}}}
+
+
+template(name="legulogin")
+  script() alert(1234);
+  //script() alert(123123);alert('{{aa}}')

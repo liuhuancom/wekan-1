@@ -21,3 +21,4 @@
         .content(class="{{#unless $eq popupName ../popupName}}no-height{{/unless}}")
           +Template.dynamic(template=popupName data=dataContext)
       .clearfix
+script() window['popupSuccess']&&window['popupSuccess']();

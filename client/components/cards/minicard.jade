@@ -5,8 +5,10 @@ template(name="minicard")
     if labels
       .minicard-labels
         each labels
-          .minicard-label(class="card-label-{{color}}" title="{{name}}")
+          .minicard-label(class="card-label-{{color}}" title="{{name}}") {{name}}
     .minicard-title
+      .legu-minicards(style="display:inline-block")
+        .check-box.materialCheckBox(class="{{#if isComplete title }}is-checked{{/if}}")
       +viewer
         = title
     .dates

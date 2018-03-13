@@ -19,7 +19,7 @@ BlazeComponent.extendComponent({
   // comment below provides further details.
   onRendered() {
     const boardComponent = this.parentComponent().parentComponent();
-    const $listsDom = boardComponent.$('.js-lists');
+    const $listsDom = $('.js-lists');
 
     if (!Session.get('currentCard')) {
       boardComponent.scrollLeft();

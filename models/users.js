@@ -547,6 +547,40 @@ if (Meteor.isServer) {
         Boards.insert({
           title: TAPi18n.__('welcome-board'),
           permission: 'private',
+
+          // labels:[
+          //   {
+          //     'color': 'green',
+          //     '_id': Random.id(6),
+          //     'name': '',
+          //   },
+          //   {
+          //     'color': 'yellow',
+          //     '_id': Random.id(6),
+          //     'name': '',
+          //   },
+          //   {
+          //     'color': 'orange',
+          //     '_id': Random.id(6),
+          //     'name': '',
+          //   },
+          //   {
+          //     'color': 'red',
+          //     '_id': Random.id(6),
+          //     'name': '',
+          //   },
+          //   {
+          //     'color': 'purple',
+          //     '_id': Random.id(6),
+          //     'name': '',
+          //   },
+          //   {
+          //     'color': 'blue',
+          //     '_id': Random.id(6),
+          //     'name': '',
+          //   },
+          // ],
+
         }, fakeUser, (err, boardId) => {
 
           Swimlanes.insert({
@@ -554,7 +588,7 @@ if (Meteor.isServer) {
             boardId,
           }, fakeUser);
 
-          ['welcome-list1', 'welcome-list2'].forEach((title) => {
+          ['welcome-list1', 'welcome-list2', 'welcome-list3'].forEach((title) => {
             Lists.insert({title: TAPi18n.__(title), boardId}, fakeUser);
           });
         });
@@ -600,7 +634,110 @@ if (Meteor.isServer) {
 
 // USERS REST API
 if (Meteor.isServer) {
-  JsonRoutes.add('GET', '/api/user', function(req, res) {
+
+  JsonRoutes.add('POST', '/api2/users/', function (req, res) {
+    try {
+      // 验证
+      // Authentication.checkUserId(req.userId);
+
+      let json = req.body;
+      let data = JSON.parse(json.leguorigjson);
+      const id = Accounts.createUser({
+        username: data.pinyin + String(data.mobile).substr(7),
+        email: data.email||data.pinyin+'@legu.cc',
+        password: data.password || '123456',
+        from: 'admin',
+      });
+
+      // Session.set('legu_user',json.leguorigjson.pinyin+json.leguorigjson.mobile);
+
+      // Meteor.user().setAvatarUrl("http://localhost:3000/cfs/files/avatars/ozeLtBsHz4hi3F7oC/WX20180308-162356@2x.png");
+
+      Users.update(id, {
+        // $set: { 'profile.fullname': req.body.fullname },
+        $set:{'profile':{'fullname': data.name,'avatarUrl': data.avatar}}
+      });
+      // Users.setAvatarUrl('/cfs/files/avatars/4yKyN2vtoyfwv8Fjw')
+
+
+      // FlowRouter.go('home');
+
+      BlazeLayout.render('defaultLayout', {
+        headerBar: 'boardHeaderBar',
+        content: 'legulogin',
+      });
+
+      // JsonRoutes.sendResult(res, {
+      //   code: 200,
+      //   data: {
+      //     _id: id,
+      //     _liu:"liuhuan",
+      //   },
+      // });
+
+
+    }
+    catch (error) {
+      JsonRoutes.sendResult(res, {
+        code: 200,
+        data: error,
+      });
+    }
+  });
+
+
+
+  JsonRoutes.add('GET', '/api23/users', function (req, res) {
+    try {
+      // 验证
+      // Authentication.checkUserId(req.userId);
+      console.log(req.query);
+      let json = req.query;
+      let data = JSON.parse(json.leguorigjson);
+      const id = Accounts.createUser({
+        username: data.pinyin + String(data.mobile).substr(7),
+        email: data.email||data.pinyin+'@legu.cc',
+        password: data.password || '123456',
+        from: 'admin',
+      });
+
+      // Session.set('legu_user',json.leguorigjson.pinyin+json.leguorigjson.mobile);
+
+      // Meteor.user().setAvatarUrl("http://localhost:3000/cfs/files/avatars/ozeLtBsHz4hi3F7oC/WX20180308-162356@2x.png");
+
+      Users.update(id, {
+        // $set: { 'profile.fullname': req.body.fullname },
+        $set:{'profile':{'fullname': data.name,'avatarUrl': data.avatar}}
+      });
+      // Users.setAvatarUrl('/cfs/files/avatars/4yKyN2vtoyfwv8Fjw')
+
+
+      // FlowRouter.go('home');
+
+      BlazeLayout.render('defaultLayout', {
+        headerBar: 'boardHeaderBar',
+        content: 'legulogin',
+      });
+
+      // JsonRoutes.sendResult(res, {
+      //   code: 200,
+      //   data: {
+      //     _id: id,
+      //     _liu:"liuhuan",
+      //   },
+      // });
+
+
+    }
+    catch (error) {
+      JsonRoutes.sendResult(res, {
+        code: 200,
+        data: error,
+      });
+    }
+  });
+
+  JsonRoutes.add('GET', '/api/user', function(req, res, next) {
     try {
       Authentication.checkLoggedIn(req.userId);
       const data = Meteor.users.findOne({ _id: req.userId});
@@ -618,7 +755,7 @@ if (Meteor.isServer) {
     }
   });
 
-  JsonRoutes.add('GET', '/api/users', function (req, res) {
+  JsonRoutes.add('GET', '/api/users', function (req, res, next) {
     try {
       Authentication.checkUserId(req.userId);
       JsonRoutes.sendResult(res, {
@@ -636,7 +773,7 @@ if (Meteor.isServer) {
     }
   });
 
-  JsonRoutes.add('GET', '/api/users/:id', function (req, res) {
+  JsonRoutes.add('GET', '/api/users/:id', function (req, res, next) {
     try {
       Authentication.checkUserId(req.userId);
       const id = req.params.id;
@@ -653,7 +790,7 @@ if (Meteor.isServer) {
     }
   });
 
-  JsonRoutes.add('PUT', '/api/users/:id', function (req, res) {
+  JsonRoutes.add('PUT', '/api/users/:id', function (req, res, next) {
     try {
       Authentication.checkUserId(req.userId);
       const id = req.params.id;
@@ -696,7 +833,7 @@ if (Meteor.isServer) {
     }
   });
 
-  JsonRoutes.add('POST', '/api/users/', function (req, res) {
+  JsonRoutes.add('POST', '/api/users/', function (req, res, next) {
     try {
       Authentication.checkUserId(req.userId);
       const id = Accounts.createUser({
@@ -720,7 +857,7 @@ if (Meteor.isServer) {
     }
   });
 
-  JsonRoutes.add('DELETE', '/api/users/:id', function (req, res) {
+  JsonRoutes.add('DELETE', '/api/users/:id', function (req, res, next) {
     try {
       Authentication.checkUserId(req.userId);
       const id = req.params.id;

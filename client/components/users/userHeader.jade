@@ -4,10 +4,10 @@ template(name="headerUserBar")
       .header-user-bar-avatar
         +userAvatar(userId=currentUser._id)
       unless isMiniScreen
-        if currentUser.profile.fullname
-          = currentUser.profile.fullname
-        else
-          = currentUser.username
+        //if currentUser.profile.fullname
+        //  = currentUser.profile.fullname
+        //else
+        //  = currentUser.username
 
 template(name="memberMenuPopup")
   ul.pop-over-list

@@ -213,6 +213,7 @@ BlazeComponent.extendComponent({
     if (checklist && item && item._id) {
       checklist.toggleItem(item._id);
     }
+    console.log(this.currentData());
   },
   events() {
     return [{

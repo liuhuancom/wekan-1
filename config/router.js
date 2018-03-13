@@ -1,3 +1,4 @@
+
 let previousPath;
 FlowRouter.triggers.exit([({path}) => {
   previousPath = path;
