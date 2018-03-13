@@ -263,7 +263,7 @@ BlazeComponent.extendComponent({
 
   onRendered() {
     this.find('.js-search-member input').focus();
-    $(this.find('.js-search-member input')).val('a');
+    $(this.find('.js-search-member input')).val('@all').keyup();
     this.setError('');
     this.setLoading(false);
   },

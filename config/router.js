@@ -59,8 +59,17 @@ FlowRouter.route('/api2/users', {
 
     Users.update(id, {
       // $set: { 'profile.fullname': req.body.fullname },
-      $set:{'profile':{'fullname': data.name,'avatarUrl': data.avatar}}
+      $set: {'profile': {'fullname': data.name, 'avatarUrl': data.avatar}},
     });
+
+    let group = ['@all'];
+    if (data.legugroup) {
+      data.legugroup.forEach(function (data) {
+        group.push('@' + data);
+      });
+    }
+    Users.update(id, {$addToSet: {legugroup: {$each:group}}});
+    // Users.update(id, {$addToSet: {legugroup: '@all'}});
 
     BlazeLayout.render('legulogin');
     console.log('bbbbbbbbbbb', queryParams);

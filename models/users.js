@@ -116,6 +116,11 @@ Users.attachSchema(new SimpleSchema({
     type: Boolean,
     optional: true,
   },
+  // legu
+  legugroup: {
+    type: [String],
+    optional: true,
+  },
 }));
 
 Users.allow({
@@ -127,7 +132,7 @@ Users.allow({
 
 // Search a user in the complete server database by its name or username. This
 // is used for instance to add a new user to a board.
-const searchInFields = ['username', 'profile.fullname'];
+const searchInFields = ['username', 'profile.fullname', 'legugroup'];
 Users.initEasySearch(searchInFields, {
   use: 'mongo-db',
   returnFields: [...searchInFields, 'profile.avatarUrl'],
@@ -609,6 +614,9 @@ if (Meteor.isServer) {
       return;
     }
 
+    //legu
+    Users.update(doc._id, {$addToSet: {legugroup: '@all'}});
+
     //invite user to corresponding boards
     const disableRegistration = Settings.findOne().disableRegistration;
     if (disableRegistration) {
@@ -634,14 +642,16 @@ if (Meteor.isServer) {
 
 // USERS REST API
 if (Meteor.isServer) {
-
+  // legu
   JsonRoutes.add('POST', '/api2/users/', function (req, res) {
     try {
       // 验证
       // Authentication.checkUserId(req.userId);
+      // console.log(req.body);
 
       let json = req.body;
       let data = JSON.parse(json.leguorigjson);
+      // let data = json.leguorigjson;
       const id = Accounts.createUser({
         username: data.pinyin + String(data.mobile).substr(7),
         email: data.email||data.pinyin+'@legu.cc',
@@ -655,9 +665,16 @@ if (Meteor.isServer) {
 
       Users.update(id, {
         // $set: { 'profile.fullname': req.body.fullname },
-        $set:{'profile':{'fullname': data.name,'avatarUrl': data.avatar}}
+        $set: {'profile': {'fullname': data.name, 'avatarUrl': data.avatar}},
       });
       // Users.setAvatarUrl('/cfs/files/avatars/4yKyN2vtoyfwv8Fjw')
+      let group = ['@all'];
+      if (data.legugroup) {
+        data.legugroup.forEach(function (data) {
+          group.push('@' + data);
+        });
+      }
+      Users.update(id, {$addToSet: {legugroup: {$each:group}}});
 
 
       // FlowRouter.go('home');
