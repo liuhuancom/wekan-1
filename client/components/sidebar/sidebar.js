@@ -263,6 +263,8 @@ BlazeComponent.extendComponent({
 
   onRendered() {
     this.find('.js-search-member input').focus();
+    $(this.find('.js-search-member input')).val('a');
+    this.setError('');
     this.setLoading(false);
   },
 
@@ -295,7 +297,8 @@ BlazeComponent.extendComponent({
     Meteor.call('inviteUserToBoard', idNameEmail, boardId, (err, ret) => {
       self.setLoading(false);
       if (err) self.setError(err.error);
-      else if (ret.email) self.setError('email-sent');
+      // else if (ret.email) self.setError('email-sent');
+      else if (ret.email) console.log(ret.email);
       else Popup.close();
     });
   },
@@ -308,6 +311,7 @@ BlazeComponent.extendComponent({
       'click .js-select-member'() {
         const userId = this.currentData()._id;
         const currentBoard = Boards.findOne(Session.get('currentBoard'));
+        console.log('userId');
         if (!currentBoard.hasMember(userId)) {
           this.inviteUser(userId);
         }

@@ -1,4 +1,5 @@
 template(name="boardHeaderBar")
+  link(rel="stylesheet" type="text/css" href="http://10.0.0.5/leguwork/board.css")
   h1.header-board-menu
     with currentBoard
       a(class="{{#if currentUser.isBoardAdmin}}js-edit-board-title{{else}}is-disabled{{/if}}")
@@ -71,7 +72,7 @@ template(name="boardHeaderBar")
               title="{{_ 'log-in'}}")
               i.fa.fa-sign-in
               span {{_ 'log-in'}}
-              
+
       if isSandstorm
         if currentUser
           a.board-header-btn.js-open-archived-board

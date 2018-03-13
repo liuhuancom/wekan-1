@@ -77,6 +77,13 @@ Cards.attachSchema(new SimpleSchema({
     defaultValue: false,
     optional: true,
   },
+
+  // iscomplete: {
+  //   type: Boolean,
+  //   defaultValue: false,
+  //   optional: true,
+  // },
+
   // XXX Should probably be called `authorId`. Is it even needed since we have
   // the `members` field?
   userId: {
