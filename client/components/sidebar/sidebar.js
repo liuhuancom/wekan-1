@@ -47,10 +47,10 @@ BlazeComponent.extendComponent({
   },
 
   calculateNextPeak() {
-	  if(this.find('.js-board-sidebar-content')){
-    const altitude = this.find('.js-board-sidebar-content').scrollHeight;
-    this.callFirstWith(this, 'setNextPeak', altitude);
-	  }
+    if (this.find('.js-board-sidebar-content')) {
+      const altitude = this.find('.js-board-sidebar-content').scrollHeight;
+      this.callFirstWith(this, 'setNextPeak', altitude);
+    }
   },
 
   reachNextPeak() {
@@ -313,7 +313,6 @@ BlazeComponent.extendComponent({
       'click .js-select-member'() {
         const userId = this.currentData()._id;
         const currentBoard = Boards.findOne(Session.get('currentBoard'));
-        console.log('userId');
         if (!currentBoard.hasMember(userId)) {
           this.inviteUser(userId);
         }

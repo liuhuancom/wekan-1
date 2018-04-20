@@ -140,7 +140,7 @@ Migrations.add('add-sort-checklists', () => {
         noValidate
       );
     }
-    checklist.items.forEach(function(item, index) {
+    checklist.items.find().forEach((item, index) => {
       if (!item.hasOwnProperty('sort')) {
         Checklists.direct.update(
           { _id: checklist._id, 'items._id': item._id },
@@ -185,5 +185,37 @@ Migrations.add('add-views', () => {
           noValidate
       );
     }
+  });
+});
+
+Migrations.add('add-checklist-items', () => {
+  Checklists.find().forEach((checklist) => {
+    // Create new items
+    _.sortBy(checklist.items, 'sort').forEach((item, index) => {
+      ChecklistItems.direct.insert({
+        title: item.title,
+        sort: index,
+        isFinished: item.isFinished,
+        checklistId: checklist._id,
+        cardId: checklist.cardId,
+      });
+    });
+
+    // Delete old ones
+    Checklists.direct.update({ _id: checklist._id },
+      { $unset: { items : 1 } },
+      noValidate
+    );
+  });
+});
+
+Migrations.add('add-profile-view', () => {
+  Users.find().forEach((user) => {
+    // Set default view
+    Users.direct.update(
+      { _id: user._id },
+      { $set: { 'profile.boardView': 'board-view-lists' } },
+      noValidate
+    );
   });
 });

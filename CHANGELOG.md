@@ -1,10 +1,97 @@
-# Upcoming Wekan release
+# v0.85 2018-04-18 Wekan release
+
+This release fixes the following bugs:
+
+- [Fix Switch List/swimlane view only working with admin privileges](https://github.com/wekan/wekan/issues/1567);
+- [Fix Wekan logo positioning](https://github.com/wekan/wekan/issues/1378);
+- [Fix checklists items migration error "title is required"](https://github.com/wekan/wekan/issues/1576);
+- [Removed paxctl alpine fix #1303 , because it did not work anymore, so Docker container
+   did not build correctly](https://github.com/wekan/wekan/commit/ce659632174ba25ca9b5e85b053fde02fd9c3928);
+- [Use curl to download 100% CPU fibers fixed node in snap, and remove paxctl from
+   snap package](https://github.com/wekan/wekan/commit/179ff7a12457be1592f04e1bdc15a5bb4fe9d398).
+
+Thanks to GitHub users andresmanelli, iwkse and xet7 for their contributions.
+
+# v0.84 2018-04-16 Wekan release
+
+This release adds the following new features:
+
+- [Add Checklist Items REST API](https://github.com/wekan/wekan/commit/9eef5112dc1c1c30590d19fbfd2f615714112a3f).
+
+and fixes the following bugs:
+
+- [Fix Node Fibers 100% CPU issue](https://github.com/wekan/wekan/commit/e26a4824cfb119a15767c4827190a6b9ab65b904);
+- [Plus button on a Swimlane row, always add an element on the first row](https://github.com/wekan/wekan/issues/1577);
+- [Fix Checklist REST API](https://github.com/wekan/wekan/commit/9eef5112dc1c1c30590d19fbfd2f615714112a3f);
+- [Fix Disabling "show cards count" not possible, now zero means disable](https://github.com/wekan/wekan/issues/1570);
+- [Fix Checklist not copied when copied a card and Copy Checklist Template to Many Cards](https://github.com/wekan/wekan/issues/1565);
+- [Fix Filter cards hides checklist items](https://github.com/wekan/wekan/issues/1561).
+
+Thanks to GitHub users andresmanelli, kentonv and xet7 for their contributions.
+
+# v0.83 2018-04-12 Wekan release
+
+- Updated translations: Czech and French.
+
+Thanks to translators!
+
+# v0.82 2018-04-11 Wekan release
+
+- [Restore original font and font sizes. Admin panel people and version texts
+  to darker](https://github.com/wekan/wekan/commit/db74c86e555f45a5aaaef84d2f3d4128cec77782).
+
+Thanks to GitHub users apn3a and xet7 for their contributions.
+
+# v0.81 2018-04-10 Wekan release
+
+This release adds the following new features:
+
+- [Removed checkbox from checklist name to have more of material design look](https://github.com/wekan/wekan/issues/1568);
+- [Renamed Archives to Recycle Bin](https://github.com/wekan/wekan/issues/1429);
+- [Separate translations for cards in Recycle Bin and cards count](https://github.com/wekan/wekan/commit/49c7a6c223061b9c1769143fea32fecc7d0f3c3e);
+- [Use lighter and smaller font sizes](https://github.com/wekan/wekan/commit/7b94b0470198bc22b6a52db6661f35076f7c6388);
+- [Board title as markdown in board view](https://github.com/wekan/wekan/commit/7b94b0470198bc22b6a52db6661f35076f7c6388).
+
+and fixes the following bugs:
+
+- [Removed forcing "cards" translations to lowercase in count of cards](https://github.com/wekan/wekan/issues/1571).
+
+Thanks to GitHub users BruceZCQ, Chartman123, quantazelle and xet7 for their contributions.
+
+# v0.80 2018-04-04 Wekan release
+
+This release adds the following new features:
+
+- [Changed icon of checklist name to unchecked](https://github.com/wekan/wekan/pull/1559/commits/f9539aa2a8d806e5a158d1c32f74788d051d40cb);
+- [Added meteor packages](https://github.com/wekan/wekan/commit/40d438a517f0d807894e04873358aecf44fa7c4d)
+  for security: [browser-policy](https://atmospherejs.com/meteor/browser-policy) and
+  [eluck:accounts-lockout](https://atmospherejs.com/eluck/accounts-lockout).
+
+Thanks to GitHub users quantazelle and xet7 for their contributions.
+
+# v0.79 2018-03-31 Wekan release
+
+This release adds the following new features:
+
+- [Checklist items sort fix, and checklist sort capability](https://github.com/wekan/wekan/pull/1543);
+- [Add Received Date and End Date. Between them is already existing Start and Due Date](https://github.com/wekan/wekan/pull/1550).
+
+and fixes the following bugs:
+
+- [Fix drag in lists view](https://github.com/wekan/wekan/pull/1559/commits/679e50af6449a680f958256570e8b9f1944a3a92);
+- [Set fixed width for swimlane header](https://github.com/wekan/wekan/pull/1559/commits/2e8f8924dd0d985ae4634450cfbef04e88e5d954).
+
+Thanks to GitHub users andresmanelli, rjevnikar and xet7 for their contributions.
+
+# v0.78 2018-03-17 Wekan release
 
 This release adds the following new features:
 
 - [Allow swimlanes reordering](https://github.com/wekan/wekan/commit/37c94622e476f50bf2387bc8b140454d66200e78);
 - [Import missing card fields: isOvertime, startAt and spentTime](https://github.com/wekan/wekan/commit/b475127c53031fa498da139a7d16f3e54d43b90d);
-- [Lists view is the default view when creating boards](https://github.com/wekan/wekan/commit/1ca9e96f35389c0eec2290e8e1207801ee25f907).
+- [Lists view is the default view when creating boards](https://github.com/wekan/wekan/commit/1ca9e96f35389c0eec2290e8e1207801ee25f907);
+- [Enabled import at Sandtorm. Keep there big DANGER warning about data loss bug.](https://github.com/wekan/wekan/commit/22923d08af4f1a63ded1d92fe6918436b598592b);
+- [Add language: Armenian](https://github.com/wekan/wekan/commit/75693d16e2a0f3d201c1036ab06e6d40eb1c0adc).
 
 and fixes the following bugs:
 
@@ -24,6 +111,11 @@ and fixes the following bugs:
 - [Fix swimlane header rotation on Google Chrome. After this change both Firefox 58 and Google Chrome 64
    have properly rotated swimlane header.](https://github.com/wekan/wekan/commit/9a1b1a5bedbe44827de109731a3c3b1a07790d3e);
 - [Fix card copy and move with swimlanes](https://github.com/wekan/wekan/commit/4b53b0c90a57593c0fe2d808d2298e85f488bfa9).
+- [Fix scroll board when opening cardDetails](https://github.com/wekan/wekan/commit/454523dd4744b2bccb6805dad59abd664fdacb31);
+- [Fix swimlane info not displayed in activities](https://github.com/wekan/wekan/commit/bb37d8fa964c0d03721a664387e74300fde09eef);
+- [Fix sandstorm default swimlane creation](https://github.com/wekan/wekan/commit/f470323ee746c4e79f07d166d511867408194eb6);
+- [Extend lists to bottom of frame in lists view](https://github.com/wekan/wekan/commit/c62a2ee11febf7f98456c97dc3973509b4bfe119);
+- [Fix drag and drop issues when re-enter board](https://github.com/wekan/wekan/commit/5b0f7f8aef115b202aaff6bc25bb514426dc2009).
 
 Thanks to GitHub users andresmanelli, GhassenRjab, kubiko, lumatijev, lunatic4ever and xet7 for their contributions.
 

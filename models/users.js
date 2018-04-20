@@ -43,7 +43,9 @@ Users.attachSchema(new SimpleSchema({
     optional: true,
     autoValue() { // eslint-disable-line consistent-return
       if (this.isInsert && !this.isSet) {
-        return {};
+        return {
+          boardView: 'board-view-lists',
+        };
       }
     },
   },
@@ -92,6 +94,10 @@ Users.attachSchema(new SimpleSchema({
     optional: true,
   },
   'profile.icode': {
+    type: String,
+    optional: true,
+  },
+  'profile.boardView': {
     type: String,
     optional: true,
   },
@@ -335,6 +341,14 @@ Users.mutations({
   setShowCardsCountAt(limit) {
     return {$set: {'profile.showCardsCountAt': limit}};
   },
+
+  setBoardView(view) {
+    return {
+      $set : {
+        'profile.boardView': view,
+      },
+    };
+  },
 });
 
 Meteor.methods({
@@ -553,40 +567,6 @@ if (Meteor.isServer) {
         Boards.insert({
           title: TAPi18n.__('welcome-board'),
           permission: 'private',
-
-          // labels:[
-          //   {
-          //     'color': 'green',
-          //     '_id': Random.id(6),
-          //     'name': '',
-          //   },
-          //   {
-          //     'color': 'yellow',
-          //     '_id': Random.id(6),
-          //     'name': '',
-          //   },
-          //   {
-          //     'color': 'orange',
-          //     '_id': Random.id(6),
-          //     'name': '',
-          //   },
-          //   {
-          //     'color': 'red',
-          //     '_id': Random.id(6),
-          //     'name': '',
-          //   },
-          //   {
-          //     'color': 'purple',
-          //     '_id': Random.id(6),
-          //     'name': '',
-          //   },
-          //   {
-          //     'color': 'blue',
-          //     '_id': Random.id(6),
-          //     'name': '',
-          //   },
-          // ],
-
         }, fakeUser, (err, boardId) => {
 
           Swimlanes.insert({
@@ -674,7 +654,7 @@ if (Meteor.isServer) {
 	  }else{
 		  var id = user._id;
 	  }
-      
+
 	   //console.log('id',id);
 
       // Session.set('legu_user',json.leguorigjson.pinyin+json.leguorigjson.mobile);
@@ -688,7 +668,7 @@ if (Meteor.isServer) {
 
 	  Users.update(id, {
         $set: {
-			'profile.fullname': data.name, 
+			'profile.fullname': data.name,
 			//'profile.avatarUrl': data.avatar,
 			'profile.tags':["notify-participate", "notify-watch"]
 		}

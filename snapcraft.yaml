@@ -81,7 +81,7 @@ parts:
     wekan:
         source: .
         plugin: nodejs
-        node-engine: 8.9.3
+        node-engine: 8.11.1
         node-packages:
             - npm@5.5.1
             - node-gyp
@@ -95,13 +95,32 @@ parts:
             - capnproto
             - npm
             - curl
-            - paxctl
             - execstack
         prepare: |
             echo "Cleaning environment first"
             rm -rf ~/.meteor ~/.npm /usr/local/lib/node_modules
-            echo "Applying paxctl fix for alpine linux: https://github.com/wekan/wekan/issues/1303"
-            paxctl -mC `which node`
+            # Node Fibers 100% CPU usage issue:
+            # https://github.com/wekan/wekan-mongodb/issues/2#issuecomment-381453161
+            # https://github.com/meteor/meteor/issues/9796#issuecomment-381676326
+            # https://github.com/sandstorm-io/sandstorm/blob/0f1fec013fe7208ed0fd97eb88b31b77e3c61f42/shell/server/00-startup.js#L99-L129
+            # Also see beginning of wekan/server/authentication.js
+            #   import Fiber from "fibers";
+            #   Fiber.poolSize = 1e9;
+            # Download node version 8.11.1 that has fix included, node binary copied from Sandstorm
+            # Description at https://releases.wekan.team/node.txt
+            # SHA256SUM: 18c99d5e79e2fe91e75157a31be30e5420787213684d4048eb91e602e092725d
+            echo "18c99d5e79e2fe91e75157a31be30e5420787213684d4048eb91e602e092725d  node" >> node-SHASUMS256.txt.asc
+            curl https://releases.wekan.team/node -o node
+            # Verify Fibers patched node authenticity
+            echo "Fibers 100% CPU issue patched node authenticity:"
+            grep node node-SHASUMS256.txt.asc | shasum -a 256 -c -
+            rm -f node-SHASUMS256.txt.asc
+            chmod +x node
+            mv node `which node`
+            # DOES NOT WORK: paxctl fix.
+            # Removed from build-packages: - paxctl
+            #echo "Applying paxctl fix for alpine linux: https://github.com/wekan/wekan/issues/1303"
+            #paxctl -mC `which node`
             echo "Installing meteor"
             curl https://install.meteor.com/ -o install_meteor.sh
             sed -i "s|RELEASE=.*|RELEASE=\"1.6.0.1\"|g" install_meteor.sh
@@ -140,7 +159,7 @@ parts:
 
     caddy:
         plugin: dump
-        source: https://caddyserver.com/download/linux/amd64?plugins=
+        source: https://caddyserver.com/download/linux/amd64?license=personal&plugins=
         source-type: tar
         organize:
           caddy: bin/caddy
