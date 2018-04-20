@@ -1,4 +1,5 @@
 const subManager = new SubsManager();
+const { calculateIndexData } = Utils;
 
 BlazeComponent.extendComponent({
   mixins() {
@@ -44,8 +45,8 @@ BlazeComponent.extendComponent({
     const cardPanelWidth = 510;
     const bodyBoardComponent = this.parentComponent().parentComponent();
 
-    const $cardContainer = bodyBoardComponent.$('.js-lists');
     const $cardView = this.$(this.firstNode());
+    const $cardContainer = bodyBoardComponent.$('.js-swimlanes');
     const cardContainerScroll = $cardContainer.scrollLeft();
     const cardContainerWidth = $cardContainer.width();
 
@@ -66,6 +67,51 @@ BlazeComponent.extendComponent({
 
   onRendered() {
     if (!Utils.isMiniScreen()) this.scrollParentContainer();
+    const $checklistsDom = this.$('.card-checklist-items');
+
+    $checklistsDom.sortable({
+      tolerance: 'pointer',
+      helper: 'clone',
+      handle: '.checklist-title',
+      items: '.js-checklist',
+      placeholder: 'checklist placeholder',
+      distance: 7,
+      start(evt, ui) {
+        ui.placeholder.height(ui.helper.height());
+        EscapeActions.executeUpTo('popup-close');
+      },
+      stop(evt, ui) {
+        let prevChecklist = ui.item.prev('.js-checklist').get(0);
+        if (prevChecklist) {
+          prevChecklist = Blaze.getData(prevChecklist).checklist;
+        }
+        let nextChecklist = ui.item.next('.js-checklist').get(0);
+        if (nextChecklist) {
+          nextChecklist = Blaze.getData(nextChecklist).checklist;
+        }
+        const sortIndex = calculateIndexData(prevChecklist, nextChecklist, 1);
+
+        $checklistsDom.sortable('cancel');
+        const checklist = Blaze.getData(ui.item.get(0)).checklist;
+
+        Checklists.update(checklist._id, {
+          $set: {
+            sort: sortIndex.base,
+          },
+        });
+      },
+    });
+
+    function userIsMember() {
+      return Meteor.user() && Meteor.user().isBoardMember();
+    }
+
+    // Disable sorting if the current user is not a board member
+    this.autorun(() => {
+      if ($checklistsDom.data('sortable')) {
+        $checklistsDom.sortable('option', 'disabled', !userIsMember());
+      }
+    });
   },
 
   onDestroyed() {
@@ -105,6 +151,10 @@ BlazeComponent.extendComponent({
       'click .js-member': Popup.open('cardMember'),
       'click .js-add-members': Popup.open('cardMembers'),
       'click .js-add-labels': Popup.open('cardLabels'),
+      'click .js-received-date': Popup.open('editCardReceivedDate'),
+      'click .js-start-date': Popup.open('editCardStartDate'),
+      'click .js-due-date': Popup.open('editCardDueDate'),
+      'click .js-end-date': Popup.open('editCardEndDate'),
       'mouseenter .js-card-details' () {
         this.parentComponent().parentComponent().showOverlay.set(true);
         this.parentComponent().parentComponent().mouseHasEnterCardDetails = true;
@@ -167,8 +217,10 @@ Template.cardDetailsActionsPopup.events({
   'click .js-members': Popup.open('cardMembers'),
   'click .js-labels': Popup.open('cardLabels'),
   'click .js-attachments': Popup.open('cardAttachments'),
+  'click .js-received-date': Popup.open('editCardReceivedDate'),
   'click .js-start-date': Popup.open('editCardStartDate'),
   'click .js-due-date': Popup.open('editCardDueDate'),
+  'click .js-end-date': Popup.open('editCardEndDate'),
   'click .js-spent-time': Popup.open('editCardSpentTime'),
   'click .js-move-card': Popup.open('moveCard'),
   'click .js-copy-card': Popup.open('copyCard'),
@@ -293,9 +345,16 @@ Template.copyCardPopup.events({
       cursor.forEach(function() {
         'use strict';
         const checklist = arguments[0];
+        const checklistId = checklist._id;
         checklist.cardId = _id;
         checklist._id = null;
-        Checklists.insert(checklist);
+        const newChecklistId = Checklists.insert(checklist);
+        ChecklistItems.find({checklistId}).forEach(function(item) {
+          item._id = null;
+          item.checklistId = newChecklistId;
+          item.cardId = _id;
+          ChecklistItems.insert(item);
+        });
       });
 
       // copy card comments
@@ -313,17 +372,20 @@ Template.copyCardPopup.events({
 });
 
 Template.copyChecklistToManyCardsPopup.events({
-  'click .js-select-list' (evt) {
+  'click .js-done' () {
     const card = Cards.findOne(Session.get('currentCard'));
     const oldId = card._id;
     card._id = null;
-    card.listId = this._id;
-    const list = Lists.findOne(card.listId);
-    card.boardId = list.boardId;
-    const textarea = $(evt.currentTarget).parents('.content').find('textarea');
+    const lSelect = $('.js-select-lists')[0];
+    card.listId = lSelect.options[lSelect.selectedIndex].value;
+    const slSelect = $('.js-select-swimlanes')[0];
+    card.swimlaneId = slSelect.options[slSelect.selectedIndex].value;
+    const bSelect = $('.js-select-boards')[0];
+    card.boardId = bSelect.options[bSelect.selectedIndex].value;
+    const textarea = $('#copy-card-title');
     const titleEntry = textarea.val().trim();
     // insert new card to the bottom of new list
-    card.sort = Lists.findOne(this._id).cards().count();
+    card.sort = Lists.findOne(card.listId).cards().count();
 
     if (titleEntry) {
       const titleList = JSON.parse(titleEntry);
@@ -344,9 +406,16 @@ Template.copyChecklistToManyCardsPopup.events({
         cursor.forEach(function() {
           'use strict';
           const checklist = arguments[0];
+          const checklistId = checklist._id;
           checklist.cardId = _id;
           checklist._id = null;
-          Checklists.insert(checklist);
+          const newChecklistId = Checklists.insert(checklist);
+          ChecklistItems.find({checklistId}).forEach(function(item) {
+            item._id = null;
+            item.checklistId = newChecklistId;
+            item.cardId = _id;
+            ChecklistItems.insert(item);
+          });
         });
 
         // copy card comments

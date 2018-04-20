@@ -23,6 +23,9 @@ Activities.helpers({
   list() {
     return Lists.findOne(this.listId);
   },
+  swimlane() {
+    return Swimlanes.findOne(this.swimlaneId);
+  },
   oldList() {
     return Lists.findOne(this.oldListId);
   },
@@ -39,7 +42,7 @@ Activities.helpers({
     return Checklists.findOne(this.checklistId);
   },
   checklistItem() {
-    return Checklists.findOne(this.checklistId).getItem(this.checklistItemId);
+    return ChecklistItems.findOne(this.checklistItemId);
   },
 });
 
