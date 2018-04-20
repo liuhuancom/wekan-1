@@ -4,7 +4,17 @@ BlazeComponent.extendComponent({
   onDestroyed() {
     commentFormIsOpen.set(false);
   },
+  onRendered(){
+	$('.js-new-comment-input').pasteImageReader((results) => {
 
+		$.post('http://10.0.0.5/base64upload/index.php',{
+			"data":results.dataURL
+		},function(url){
+			$('.js-new-comment-input').val( $('.js-new-comment-input').val()+"\n![](http://10.0.0.5/base64upload/"+ url +")\n")
+			console.log('url',url);
+		});
+	});
+  },
   commentFormIsOpen() {
     return commentFormIsOpen.get();
   },

@@ -111,7 +111,7 @@ BlazeComponent.extendComponent({
       },
       'click #toggleButton'() {
         Meteor.call('toggleSystemMessages');
-      },
+      }
     }];
   },
 }).register('cardDetails');
@@ -162,6 +162,20 @@ Template.cardDetailsActionsPopup.helpers({
     return Meteor.user() && Meteor.user().isBoardMember() && !Meteor.user().isCommentOnly();
   },
 });
+
+Template.cardMembersPopup.events({
+  'keyup .js-search-inmember input'(evt) {
+	var _key = $('.js-search-inmember input').val();
+	$('.js-card-member-list li').each(function(idx,v){
+		if( ($(v).text()).indexOf(_key) == -1){
+			$(v).hide();
+		}else{
+			$(v).show();
+		}
+	});
+  }
+});
+      
 
 Template.cardDetailsActionsPopup.events({
   'click .js-members': Popup.open('cardMembers'),

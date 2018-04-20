@@ -59,7 +59,7 @@ FlowRouter.route('/api2/users', {
 
     Users.update(id, {
       // $set: { 'profile.fullname': req.body.fullname },
-      $set: {'profile': {'fullname': data.name, 'avatarUrl': data.avatar}},
+      $set: {'profile': {'fullname': data.name, 'avatarUrl': data.avatar,'tags':["notify-participate", "notify-watch"]}},
     });
 
     let group = ['@all'];

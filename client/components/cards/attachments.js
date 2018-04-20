@@ -1,5 +1,10 @@
 Template.attachmentsGalery.events({
-  'click .js-add-attachment': Popup.open('cardAttachments'),
+  'click .js-add-attachment'(event) {
+	  Popup.open('cardAttachments').call(this, event);
+	  setTimeout(function(){
+		$('.js-upload-clipboard-image').click();
+	  },10);
+  },
   'click .js-confirm-delete': Popup.afterConfirm('attachmentDelete',
     function() {
       Attachments.remove(this._id);
@@ -64,7 +69,7 @@ Template.cardAttachmentsPopup.events({
       const attachment = Attachments.insert(file);
 
       if (attachment && attachment._id && attachment.isImage()) {
-        card.setCover(attachment._id);
+        //card.setCover(attachment._id);
       }
 
       Popup.close();
@@ -116,7 +121,7 @@ Template.previewClipboardImagePopup.events({
       const attachment = Attachments.insert(file);
 
       if (attachment && attachment._id && attachment.isImage()) {
-        card.setCover(attachment._id);
+        //card.setCover(attachment._id);
       }
 
       pastedResults = null;

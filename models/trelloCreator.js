@@ -551,7 +551,7 @@ export class TrelloCreator {
           cardId: this.cards[action.data.card.id],
           boardId,
           createdAt: this._now(action.date),
-        });
+        }); 
         break;
       }
       case 'updateCard': {

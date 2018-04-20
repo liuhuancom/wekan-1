@@ -385,7 +385,7 @@ function cardCreation(userId, doc) {
     activityType: 'createCard',
     boardId: doc.boardId,
     listId: doc.listId,
-    cardId: doc._id,
+    cardId: doc._id
   });
 }
 
@@ -413,6 +413,8 @@ if (Meteor.isServer) {
   });
 
   Cards.after.insert((userId, doc) => {
+    //默认把自己加到members中
+    Cards.update(doc._id, {$set: {members : [ userId.toString() ]} });
     cardCreation(userId, doc);
   });
 

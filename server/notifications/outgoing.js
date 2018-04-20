@@ -10,6 +10,7 @@ const postCatchError = Meteor.wrapAsync((url, options, resolve) => {
 
 Meteor.methods({
   outgoingWebhooks(integrations, description, params) {
+    return;
     check(integrations, Array);
     check(description, String);
     check(params, Object);

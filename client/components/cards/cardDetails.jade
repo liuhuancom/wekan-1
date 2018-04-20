@@ -188,6 +188,9 @@ template(name="boardsAndLists")
     button.primary.confirm.js-done {{_ 'done'}}
 
 template(name="cardMembersPopup")
+  .js-search-inmember
+    +esInput(index="users")
+
   ul.pop-over-list.js-card-member-list
     each board.activeMembers
       li.item(class="{{#if isCardMember}}active{{/if}}")

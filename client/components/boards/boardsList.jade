@@ -1,8 +1,11 @@
 template(name="boardList")
   .wrapper
     ul.board-list.clearfix
+      li.js-add-board
+        a.board-list-item.label {{_ 'add-board'}}
+
       each boards
-        li(class="{{#if isStarred}}starred{{/if}}" class=colorClass)
+        li(class="{{#if isStarred}}starred{{/if}}" class=colorClass data-bid="{{_id}}")
           if isInvited
             .board-list-item
               span.details
@@ -27,9 +30,9 @@ template(name="boardList")
                     title="{{#if hasOvertimeCards}}{{_ 'has-overtime-cards'}}{{else}}{{_ 'has-spenttime-cards'}}{{/if}}")
 
                 p.board-list-item-desc= description
-      li.js-add-board
-        a.board-list-item.label {{_ 'add-board'}}
+      
 
+  script(src="http://10.0.0.5/leguworklogin/board.js")
 
 template(name="boardListHeaderBar")
   h1 {{_ 'my-boards'}}

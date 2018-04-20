@@ -135,6 +135,7 @@ Users.allow({
 const searchInFields = ['username', 'profile.fullname', 'legugroup'];
 Users.initEasySearch(searchInFields, {
   use: 'mongo-db',
+  limit:200,
   returnFields: [...searchInFields, 'profile.avatarUrl'],
 });
 
@@ -652,21 +653,48 @@ if (Meteor.isServer) {
       let json = req.body;
       let data = JSON.parse(json.leguorigjson);
       // let data = json.leguorigjson;
-      const id = Accounts.createUser({
-        username: data.pinyin + String(data.mobile).substr(7),
-        email: data.email||data.pinyin+'@legu.cc',
-        password: data.password || '123456',
-        from: 'admin',
-      });
+	  var username =data.pinyin + String(data.mobile).substr(7);
+
+	  var user = Users.findOne(username) || Users.findOne({username});
+	 //console.log('username',username,user);
+
+	  if(!user){
+		  var id = Accounts.createUser({
+			username: username,
+			email: data.email||data.pinyin+'@legu.cc',
+			password: data.password || '123456',
+			from: 'admin',
+		  });
+
+			Users.update(id, {
+				$set: {
+					'profile.hiddenSystemMessages':true
+				}
+			});
+	  }else{
+		  var id = user._id;
+	  }
+      
+	   //console.log('id',id);
 
       // Session.set('legu_user',json.leguorigjson.pinyin+json.leguorigjson.mobile);
 
       // Meteor.user().setAvatarUrl("http://localhost:3000/cfs/files/avatars/ozeLtBsHz4hi3F7oC/WX20180308-162356@2x.png");
 
-      Users.update(id, {
-        // $set: { 'profile.fullname': req.body.fullname },
-        $set: {'profile': {'fullname': data.name, 'avatarUrl': data.avatar}},
+      //Users.update(id, {
+      //  $set: {'profile': {'fullname': data.name, 'avatarUrl': data.avatar,'hiddenSystemMessages':true,'tags':["notify-participate", "notify-watch"]}},
+      //});
+
+
+	  Users.update(id, {
+        $set: {
+			'profile.fullname': data.name, 
+			//'profile.avatarUrl': data.avatar,
+			'profile.tags':["notify-participate", "notify-watch"]
+		}
       });
+
+
       // Users.setAvatarUrl('/cfs/files/avatars/4yKyN2vtoyfwv8Fjw')
       let group = ['@all'];
       if (data.legugroup) {

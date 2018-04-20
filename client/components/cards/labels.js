@@ -39,9 +39,34 @@ Template.createLabelPopup.helpers({
 
 Template.cardLabelsPopup.events({
   'click .js-select-label'(evt) {
+    
     const card = Cards.findOne(Session.get('currentCard'));
     const labelId = this._id;
+
+	var text = $(evt.target).text();
+	text = text.replace(/\n/g,'');
+	
+	if (card.labelIds && card.labelIds.indexOf(labelId) > -1) {
+		
+		/*
+		CardComments.insert({
+			text:"我<font color=red>删除</font>了标签["+ text +"]",
+			boardId: card.boardId,
+			cardId: card._id,
+		});
+		*/
+    } else {
+		/*
+		CardComments.insert({
+			text:"我<font color=blue>增加</font>了标签["+ text +"]",
+			boardId: card.boardId,
+			cardId: card._id,
+		});
+		*/
+    }
+
     card.toggleLabel(labelId);
+
     evt.preventDefault();
   },
   'click .js-edit-label': Popup.open('editLabel'),

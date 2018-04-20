@@ -7,9 +7,28 @@ Meteor.startup(() => {
       if (quoteParams[key]) quoteParams[key] = `"${params[key]}"`;
     });
 
-    const text = `${params.user} ${TAPi18n.__(description, quoteParams, user.getLanguage())}\n${params.url}`;
-    user.addEmailBuffer(text);
+    //const text = `${params.user} ${TAPi18n.__(description, quoteParams, user.getLanguage())}\n${params.url}`;
+	const text = `${params.user} ${TAPi18n.__(description, quoteParams, user.getLanguage())}`;
+	const _url = `${params.url}`;
 
+    console.log('mail==',text);
+    //user.addEmailBuffer(text);
+	user.clearEmailBuffer();
+
+	const _userId = user._id;
+	const _user = Users.findOne(_userId);
+
+	return;
+	HTTP.post("http://10.0.0.5/senddmsg/index.php", {
+		content:JSON.stringify({
+			agentid:'164310138',
+			content:text,
+			name:_user.profile.fullname,
+			url:_url
+		})
+	}, function(err, res){});
+	
+	return;
     // unlike setTimeout(func, delay, args),
     // Meteor.setTimeout(func, delay) does not accept args :-(
     // so we pass userId with closure

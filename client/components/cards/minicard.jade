@@ -2,10 +2,7 @@ template(name="minicard")
   .minicard
     if cover
       .minicard-cover(style="background-image: url('{{cover.url}}');")
-    if labels
-      .minicard-labels
-        each labels
-          .minicard-label(class="card-label-{{color}}" title="{{name}}") {{name}}
+    
     .minicard-title
       .legu-minicards(style="display:inline-block")
         .check-box.materialCheckBox(class="{{#if isComplete title }}is-checked{{/if}}")
@@ -42,3 +39,8 @@ template(name="minicard")
         .badge(class="{{#if checklistFinished}}is-finished{{/if}}")
           span.badge-icon.fa.fa-check-square-o
           span.badge-text.check-list-text {{checklistFinishedCount}}/{{checklistItemCount}}
+
+      if labels
+       .minicard-labels
+         each labels
+           .minicard-label(class="card-label-{{color}}" title="{{name}}") {{name}}
