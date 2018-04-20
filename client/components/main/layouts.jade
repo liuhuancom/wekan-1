@@ -29,7 +29,8 @@ template(name="userFormsLayout")
 
 template(name="defaultLayout")
   +header
-  link(rel="stylesheet" type="text/css" href="http://10.0.0.5/leguworklogin/css.css")
+  //link(rel="stylesheet" type="text/css" href="http://10.0.0.5/leguworklogin/css.css")
+  link(rel="stylesheet" type="text/css" href="{{pathFor '/leguworklogin/css.css'}}")
   #content
     +Template.dynamic(template=content)
   if (Modal.isOpen)

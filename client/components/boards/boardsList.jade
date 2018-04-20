@@ -32,7 +32,8 @@ template(name="boardList")
                 p.board-list-item-desc= description
       
 
-  script(src="http://10.0.0.5/leguworklogin/board.js")
+  //script(src="http://10.0.0.5/leguworklogin/board.js")
+  script(src="{{pathFor '/leguworklogin/board.js'}}")
 
 template(name="boardListHeaderBar")
   h1 {{_ 'my-boards'}}
