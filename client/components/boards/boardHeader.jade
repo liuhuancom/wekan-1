@@ -1,4 +1,5 @@
 template(name="boardHeaderBar")
+link(rel="stylesheet" type="text/css" href="{{pathFor '/leguworklogin/board.css'}}")
   h1.header-board-menu
     with currentBoard
       a(class="{{#if currentUser.isBoardAdmin}}js-edit-board-title{{else}}is-disabled{{/if}}")

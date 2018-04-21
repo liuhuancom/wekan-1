@@ -1,0 +1,96 @@
+@media only screen and (min-width: 700px) {
+	body{font-family:"微软雅黑";background:#f8f6f2;!importan}
+	.swimlane{background:#f8f6f2;!importan}
+
+	.add-checklist-item{color:#357cbc;!importan}
+	/*#content{ margin-left:60px;}*/
+	/*列表样式*/
+	.list:first-child{margin-left: 10px;}
+	.list.placeholder{background-color:#f8f6f2;!importan}
+	.list{ flex: 0 0 300px;background:#eeece8;margin-right:10px;border:0;border-radius: 5px;margin-top: 10px;margin-bottom:10px;; !important}
+	.is-selected .minicard{z-index:0;transform:none;-webkit-transform:none;!important}
+	.list-header .list-header-name{font-weight: normal;font-size:15px;!important}
+	.legu-minicards{vertical-align:top;!important}
+	.minicard-title .viewer{max-width:235px;!important}
+
+	/*任务详情*/
+	.card-details{margin-left:-10px;!important}
+	section.card-details{position: fixed;right:0;top:0;height:100%;!important} /*详情浮动*/
+
+	.attachments-galery .attachment-item .attachment-thumbnail{ height:50px;!important }
+	.attachments-galery .attachment-item{ min-height:80px;!important}
+	.attachments-galery .attachment-item .attachment-details .attachment-details-actions a{display:inline-block;!important}
+	.attachment-details-actions{display:block;!important}
+
+
+	/*清单*/
+	.card-checklist-items{background:#fff;border-radius: 5px;padding:5px;margin-bottom:5px;!important}
+	.checklist-title .title{ font-size:12px;!important }
+	.checklist-title .title p{ margin-bottom:0;!important}
+	.checklist-items .item{ line-height:16px;font-size:12px;!important}
+
+	/*list中的头像*/
+	.minicard .minicard-members .member{height:22px;width:22px;!important}
+	.minicard .minicard-labels .minicard-label{padding:0 2px;!important }
+	/*设置某任务的成员面板最高尺寸*/
+	.js-card-member-list{ max-height:400px;overflow:hidden; overflow-y:auto;}
+
+	/*#header{margin-left:60px;}*/
+	/*顶部菜单背景颜色，几个皮肤*/
+	.board-color-belize#header,.board-color-nephritis#header,.board-color-pomegranate#header,.board-color-pumpkin#header,.board-color-wisteria#header,.board-color-midnight#header,#header{background:#fff;border-bottom:solid 1px #eeece8;color:#4d4d4d;!important}
+
+	#header #header-main-bar .board-header-btn{color:#4d4d4d;!important}
+
+
+	#header #header-main-bar .board-header-btn i.fa{color:#2573a7;!important}/*首页顶部*/
+	.board-color-nephritis#header #header-main-bar .board-header-btn i.fa{color:#239d56;!important}/*绿色*/
+	.board-color-belize#header #header-main-bar .board-header-btn i.fa{color:#2573a7;!important}/*蓝色*/
+	.board-color-pomegranate#header #header-main-bar .board-header-btn i.fa{color:#c0392b;!important}/*红色*/
+	.board-color-pumpkin#header #header-main-bar .board-header-btn i.fa{color:#e67e22;!important}/*橙色*/
+	.board-color-wisteria#header #header-main-bar .board-header-btn i.fa{color:#8e44ad;!important}/*紫色*/
+	.board-color-midnight#header #header-main-bar .board-header-btn i.fa{color:#2c3e50;!important}/*黑色*/
+
+	/*#content{margin-left:60px;!important} */
+	#header-quick-access{ width:60px; height:100%;position:fixed;z-index:20;display:block}
+	#header-quick-access ul{margin:0;;!important}
+	#header-quick-access ul li:first-child .fa-home{margin:0}
+	#header-quick-access ul li{padding:0;width:100%;margin-top:10px; margin-bottom:10px;!important}
+	#header-quick-access ul li.separator{margin:0;}
+	#header-quick-access ul li.homeli{text-align: center;}
+	#header-quick-access .fa-home{font-size:35px;}
+	#header-quick-access .fa-home:after{color:red;!important}
+	#header-quick-access ul li.proname{text-align: center;    height: 20px;overflow: hidden;width:auto;margin:5px;}
+	#header-quick-access #header-new-board-icon{font-size:20px;margin:40px 0 0 20px;display:inline-block}
+
+	.board-color-midnight#header #header-main-bar .board-header-btn.emphasis{background:rgba(0,0,0,0.15)}
+	.board-color-midnight#header #header-main-bar .board-header-btn.emphasis:hover, .board-color-midnight#header #header-main-bar .board-header-btn.emphasis .board-header-btn-close{background:rgba(0,0,0,0.15)}
+	.board-color-midnight#header #header-main-bar .board-header-btn.emphasis:hover, .board-color-midnight#header #header-main-bar .board-header-btn.emphasis .board-header-btn-close:hover{background:rgba(0,0,0,0.15)}
+
+
+	/*左侧头像*/
+	#header-user-bar{position: absolute;bottom:10px;width:100%;display:block}
+	#header-quick-access #header-user-bar .header-user-bar-avatar{float:none;text-align: center;!important}
+	#header-quick-access #header-user-bar .header-user-bar-avatar .member{width:40px; height:40px; left:10px;}
+	.board-sidebar{position:fixed;top:50px;font-size:80%;!important}
+	.board-canvas,.board-wrapper .board-canvas.is-sibling-sidebar-open{margin-right:253px;!important}
+	#header-quick-access #header-user-bar .header-user-bar-name{margin:0;}
+	.board-sidebar.is-open{z-index:18;}
+	.board-widget-labels,.js-sidebar-activities{display:}/*右侧导航内的标签*/
+
+	/*名字后面的“关联”*/
+	div.quiet{display:inline-block}
+
+	time{font-size:80%;!important}
+	.js-add-labels .card-label{ font-size:80%;padding:1px 4px;}
+	.minicard-label{font-size:80%;!important}
+
+	.pop-over-list{ max-height:300px; overflow:hidden;overflow-y:auto;!important}
+
+	#swipebox-top-bar{background:rgba(0,0,0,0.4)}
+	#swipebox-overlay{background:rgba(0,0,0,0.5)}
+
+	a.js-add-attachment{display: block;
+    height: 100%;
+    width: 100%;
+    line-height: 90px;}
+}
